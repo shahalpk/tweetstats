@@ -26,26 +26,28 @@ chrome.extension.sendMessage({}, function(response) {
               var rt,fc;
               var a= data.social_proof;
 
-              RTregex = /<strong>(?:\s)*([0-9]*)(?:\s)*<\/strong>(?:\s)*retweets/gi;            
+              // RTregex = /<strong>(?:\s)*([0-9]*)(?:\s)*<\/strong>(?:\s)*retweets/gi;            
+              RTregex = /<strong>(?:.*)<\/strong>(?:\s)*retweets/gi;            
               var match = RTregex.exec(a);;
               if(!match){
                 rt = 0;
               }else{
-                rt = match[1];
+                rt = match[0];
               }
 
-              FCregex = /<strong>(?:\s)*([0-9]*)(?:\s)*<\/strong>(?:\s)*favorites/gi;
+              // FCregex = /<strong>(?:\s)*([0-9]*)(?:\s)*<\/strong>(?:\s)*favorites/gi;
+              FCregex = /<strong>(?:.*)<\/strong>(?:\s)*favorites/gi;
               match = FCregex.exec(a);
               if(!match){
                 fc=0;
               }else{
-                fc=match[1];
+                fc=match[0];
               }
 
               //Now select the element and update the information
-              var rtEle = (rt!=0)?$("<span></span>").append("<strong>"+rt + "</strong> Retweets"):"";
+              var rtEle = (rt!=0)?$("<span></span>").append(rt):"";
 
-              var favEle = (fc!=0)?$("<span></span>").append("<strong>" + fc + "</strong> Favorites"):"";
+              var favEle = (fc!=0)?$("<span></span>").append(fc):"";
 
               var bwEle = (rt!=0 && fc!=0)?"&nbsp;&nbsp;&nbsp;":"";
 
